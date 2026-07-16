@@ -1,0 +1,63 @@
+<!DOCTYPE  html>
+<html>
+<head>
+    <!-- A-Frame: the 3D/scene-graph layer (declarative HTML for 3D) -->
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <!-- AR.js: use the NFT build (aframe-ar-nft.js). It supports BOTH
+         preset markers (this step) AND image/NFT tracking (Step 04),
+         so we won't have to swap scripts later. The plain aframe-ar.js
+         does NOT include NFT — using it now would break Step 04. -->
+    <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.7/aframe/build/aframe-ar-nft.js"></script>
+    <script>
+        window.addEventListener('arjs-nft-loaded', () => {
+            console.log('NFT descriptors loaded');
+            document.title = 'NFT READY';        // ⬅ CHANGED: visible proof it loaded
+            document.querySelector('#loader')?.remove();
+        });
+    </script>
+</head>
+<body style="margin: 0; overflow: hidden">
+
+    <!-- The scene. arjs config lives here. -->
+    <a-scene
+            embedded
+            arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+            renderer="logarithmicDepthBuffer: true;"
+            vr-mode-ui="enabled: false;">
+
+        <a-assets timeout="10000">
+            <a-asset-item id="cardModel" src="assets/card-model.glb"></a-asset-item>
+        </a-assets>
+
+        <a-nft
+                type="nft"
+                url="assets/card"
+                emitevents="true"
+                smooth="true"
+                smoothCount="10"
+                smoothTolerance="0.01"
+                smoothThreshold="5">
+
+<!--             animation -> animate it: a slow hover-spin reads as "alive"-->
+            <a-entity gltf-model="#cardModel"
+                      position="50 100 0"
+                      rotation="-90 0 0"
+                      scale="1 1 1"
+                      animation="property: rotation; to: 0 0 0;
+                   dur: 8000; easing: linear; loop: true">
+            </a-entity>
+
+            <!-- content that appears on the card, e.g. the box for testing: -->
+<!--            <a-box-->
+<!--                    position="50 100 0"-->
+<!--                    material="color: #23e5c8;"-->
+<!--                    scale="100 100 100">-->
+<!--            </a-box>-->
+        </a-nft>
+
+        <!-- The camera. In AR.js the camera pose is driven by the CV,
+            so you just declare it — don't move it yourself. -->
+        <a-entity camera></a-entity>
+    </a-scene>
+</body>
+</html>

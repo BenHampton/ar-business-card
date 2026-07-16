@@ -1,0 +1,56 @@
+<!DOCTYPE  html>
+<html>
+<head>
+    <!-- A-Frame: the 3D/scene-graph layer (declarative HTML for 3D) -->
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <!-- AR.js: use the NFT build (aframe-ar-nft.js). It supports BOTH
+         preset markers (this step) AND image/NFT tracking (Step 04),
+         so we won't have to swap scripts later. The plain aframe-ar.js
+         does NOT include NFT — using it now would break Step 04. -->
+    <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.7/aframe/build/aframe-ar-nft.js"></script>
+    <script>
+        window.addEventListener('arjs-nft-loaded', () => {
+            console.log('NFT descriptors loaded');
+            document.title = 'NFT READY';        // ⬅ CHANGED: visible proof it loaded
+            document.querySelector('#loader')?.remove();
+        });
+    </script>
+</head>
+<body style="margin: 0; overflow: hidden">
+
+<!-- The scene. arjs config lives here. -->
+<a-scene
+        embedded arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+        renderer="logarithmicDepthBuffer: true;"
+        vr-mode-ui="enabled: false;">
+
+    <!-- A marker anchor. Everything inside is drawn ONLY when
+         this marker is visible, positioned relative to it. -->
+    <!--        <a-marker preset="hiro">-->
+    <!--            <a-box-->
+    <!--                    position="0 0.5 0"-->
+    <!--                    material="color: red;"-->
+    <!--                    scale="1 1 1"></a-box>-->
+    <!--        </a-marker>-->
+    <a-nft
+            type="nft"
+            url="assets/trex/trex"
+            emitevents="true"
+            smooth="true"
+            smoothCount="10"
+            smoothTolerance="0.01"
+            smoothThreshold="5">
+    <!-- content that appears on the card, e.g. the box for testing: -->
+    <a-box
+            position="50 100 0"
+            material="color: #23e5c8;"
+            scale="100 100 100">
+    </a-box>
+    </a-nft>
+
+    <!-- The camera. In AR.js the camera pose is driven by the CV,
+     so you just declare it — don't move it yourself. -->
+    <a-entity camera></a-entity>
+</a-scene>
+</body>
+</html>
