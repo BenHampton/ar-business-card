@@ -1,4 +1,4 @@
-## REAMME
+## Augmented Reality Business Card
 
 - Github Repo: https://github.com/AR-js-org
 
