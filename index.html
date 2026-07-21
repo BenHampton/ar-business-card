@@ -40,32 +40,33 @@
 <!--        <a-box position="0 0.5 0" material="color: #23e5c8;" scale="1 1 1"></a-box>-->
 <!--      </a-marker>-->
 
-<!--      <a-nft-->
-<!--              type="nft"-->
-<!--              url="ar-business-card/assets/card"-->
-<!--              smooth="false">-->
-<!--&lt;!&ndash;        <a-box position="50 100 0" material="color: #23e5c8;" scale="100 100 100"></a-box>&ndash;&gt;-->
-<!--        <a-entity-->
-<!--                gltf-model="#cardModel"-->
-<!--                position="50 100 0"-->
-<!--                rotation="-90 0 0"-->
-<!--                scale="1 1 1"-->
-<!--                animation="property: rotation; to: -90 360 0; dur: 8000; easing: linear; loop: true">-->
-<!--        </a-entity>-->
-<!--      </a-nft>-->
-
       <a-nft
               type="nft"
-              url="ar-business-card/assets/trex/trex"
+              url="ar-business-card/assets/card"
               smooth="false">
+<!--        <a-box position="50 100 0" material="color: #23e5c8;" scale="100 100 100"></a-box>-->
         <a-entity
-                gltf-model="#trexModel"
+                gltf-model="#cardModel"
                 position="50 100 0"
-                rotation="0 0 0"
+                rotation="-90 0 0"
                 scale="1 1 1"
-                animation="property: rotation; to: 0 360 0; dur: 8000; easing: linear; loop: true">
+                animation="property: rotation; to: -90 360 0; dur: 8000; easing: linear; loop: true">
         </a-entity>
       </a-nft>
+
+      <!-- TREX -->
+<!--      <a-nft-->
+<!--              type="nft"-->
+<!--              url="ar-business-card/assets/trex/trex"-->
+<!--              smooth="false">-->
+<!--        <a-entity-->
+<!--                gltf-model="#trexModel"-->
+<!--                position="50 100 0"-->
+<!--                rotation="0 0 0"-->
+<!--                scale="1 1 1"-->
+<!--                animation="property: rotation; to: 0 360 0; dur: 8000; easing: linear; loop: true">-->
+<!--        </a-entity>-->
+<!--      </a-nft>-->
 
       <!-- In AR.js the camera pose is driven by the CV solver. Declare it - never move it yourself. -->
       <a-entity camera></a-entity>
