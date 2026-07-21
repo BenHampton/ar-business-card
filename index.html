@@ -1,4 +1,4 @@
-<!DOCTYPE  html>
+<!DOCTYPE html>
 <html>
 <head>
     <!-- A-Frame: the 3D/scene-graph layer (declarative HTML for 3D) -->
@@ -15,8 +15,44 @@
             document.querySelector('#loader')?.remove();
         });
     </script>
+
+    <style>
+        #hud {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            z-index: 10; padding: 10px 18px; border-radius: 100px;
+            background: rgba(0,0,0,0.65); color: #fff;
+            font-family: system-ui, sans-serif; font-size: 15px;
+        }
+    </style>
+
+    <style>
+        #contact-fallback {
+            position: fixed;
+            left: 16px;
+            z-index: 10;
+            max-width: 80vw;
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.7);
+            color: #fff;
+            font-family: system-ui, sans-serif;
+            font-size: 14px;
+            bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+        }
+        #contact-fallback a { color: #23e5c8; }
+        #contact-fallback summary { cursor: pointer; }
+    </style>
+
 </head>
 <body style="margin: 0; overflow: hidden">
+
+    <div id="hud">Point your camera at the card</div>
+    <details id="contact-fallback">
+        <summary>Contact info (no AR needed)</summary>
+        <p>Ben Hampton - Software Engineer </p>
+<!--        <p><a href="mailto:test@example.com">test@test.com</a></p>-->
+        <p><a href="https://linkedin.com/in/test">LinkedIn</a></p>
+    </details>
 
     <!-- The scene. arjs config lives here. -->
     <a-scene
@@ -42,8 +78,8 @@
             <a-entity gltf-model="#cardModel"
                       position="50 100 0"
                       rotation="-90 0 0"
-                      scale="1 1 1"
-                      animation="property: rotation; to: 0 0 0;
+                      scale="100 100 100"
+                      animation="property: rotation; to: -90 360 0;
                    dur: 8000; easing: linear; loop: true">
             </a-entity>
 
@@ -59,5 +95,58 @@
             so you just declare it — don't move it yourself. -->
         <a-entity camera></a-entity>
     </a-scene>
+
+    <script>
+        const scene = document.querySelector('a-scene');
+        const hud = document.querySelector('#hud');
+
+        // Events bubble to the scene - listen there, not on the marker node
+        scene.addEventListener('markerFound', () => {
+            hud.style.display = 'none'
+        });
+
+        scene.addEventListener('markerLost', () => {
+            hud.textContent = 'Card lost - point back at it';
+            hud.style.display = 'block';
+        })
+
+        // camera guards. Two distinct failures - the API is missing, or the user DENIES the prompt.
+        scene.addEventListener('arjs-video-loaded',  () => {
+            console.log('Camera stream OK')
+        });
+
+        if ( !navigator.mediaDevices?.getUserMedia) {
+            showFatal('This browser can\'t access the camera. Try Chrome or Safari.')
+        } else {
+            // Probe the camera ourselves; the browser caches the grant,
+            // so AR.js's own request reuses it (no double prompt).
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => stream.getTracks().forEach(t => t.stop()))
+                .catch(err => {
+                    if (err.name === 'NotAllowedError') {
+                        showFatal('Camera access was denied. Allow camera ' +
+                            'permission in your browser settings, then reload.');
+                    } else {
+                        showFatal('No usable camera found (' + err.name + ').');
+                    }
+                });
+        }
+
+        function showFatal(message) {
+            // Replace everything with a legible, centered message -
+            // inline styles because we've wiped the DOM.
+            document.body.innerHTML =
+                `<div style="position:fixed; inset:0; display:flex;
+                  align-items:center; justify-content:center; padding:24px;
+                  background:#0a0d0f; color:#fff; text-align:center;
+                  font-family:system-ui,sans-serif; font-size:18px;
+                  line-height:1.5;">${message}</div>`;
+        }
+
+        // respect prefers-reduced-motion by stripping the spin
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.querySelector('[gltf-model]')?.removeAttribute('animation');
+        }
+    </script>
 </body>
 </html>
