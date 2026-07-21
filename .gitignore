@@ -29,6 +29,21 @@ ehthumbs.db
 Thumbs.db
 desktop.ini
 
+# ---> Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm/
+.pnpm-store/
+
+# ---> Vite / build output
+dist/
+dist-ssr/
+*.local
+.vite/
+
 # ---> Logs & env
 *.log
 .env

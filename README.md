@@ -1,4 +1,4 @@
-## Augmented Reality Business Card
+# Augmented Reality Business Card
 
 - Github Repo: https://github.com/AR-js-org
 
@@ -10,3 +10,7 @@
 
 - Free glb: https://poly.pizza/
     - Chicken by jeremy [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/1YE8U35HXsI)
+
+# Start Locally
+- `npx live-server --port=3000`
+- `npx ngrok http 3000`
