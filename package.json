@@ -9,13 +9,15 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@gltf-transform/cli": "^4.4.1",
     "@types/aframe": "^1.2.9",
     "@types/three": "^0.185.1",
     "typescript": "~6.0.2",
-    "vite": "^8.1.1"
+    "vite": "^8.1.1",
+    "vite-plugin-static-copy": "^4.1.1"
   },
   "dependencies": {
-    "@ar-js-org/ar.js": "^3.4.8",
-    "aframe": "^1.8.0"
+    "@ar-js-org/ar.js": "3.4.7",
+    "aframe": "1.6.0"
   }
 }
